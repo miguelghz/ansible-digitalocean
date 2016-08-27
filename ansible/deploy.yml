@@ -1,0 +1,36 @@
+- hosts: digitalocean
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+  - name: Try SSH key in localhost
+    user: >
+      name=vagrant
+      generate_ssh_key=yes
+      ssh_key_file="{{ do_ssh_private_key }}"
+  
+  - name: Create SSH key in Digital Ocean
+    digital_ocean: >
+      state=present
+      command=ssh
+      name="{{ do_ssh_name }}"
+      ssh_pub_key="{{ do_ssh_pub_key }}"
+      api_token={{ do_api_token }}
+    register: do_droplet
+    
+  - name: Register Droplet
+    digital_ocean: >
+      state=active
+      command=droplet
+      name={{ do_name }}
+      region_id={{ do_region }}
+      size_id={{ do_size }}
+      image_id={{ do_image }}
+      ssh_key_ids={{ do_droplet.ssh_key.id }}
+      unique_name=yes
+      api_token={{ do_api_token }}
+      wait_timeout=600
+    register: do_droplet
+  
+  - debug: msg="Server IP is {{ do_droplet.droplet.ip_address }}"

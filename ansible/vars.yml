@@ -1,0 +1,13 @@
+# DO API v2 settings
+do_api_token: abcdefghijklmnopqrstuvwxyz1234567890
+
+# DO SSH key settings
+do_ssh_name: KeyNameDO
+do_ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+do_ssh_private_key: ".ssh/id_rsa"
+
+# DO droplet settings
+do_name: myDjangoServer
+do_region: nyc2
+do_size: 512mb
+do_image: "django"
