@@ -7,6 +7,9 @@
 
 ## ANSIBLE
 `cd /vagrant/ansible`
+
+### Edit vars.yml
+Add your token and ssh key name in vars.yml. 
 ### Create machine
 `ansible-playbook deploy.yml`
 
